@@ -17,7 +17,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="Name">Name</label>
-                                <input type="text" name="name" class="form-control {{($errors->any() && $errors->first('name')) ? 'is-invalid' : ''}}" value="{{old('name')}}">
+                                <input type="text" name="name" class="form-control {{($errors->any() && $errors->first('name')) ? 'is-invalid' : ''}}" value="{{@old('name')}}">
                                 @if($errors->any())
 									<p class="invalid-feedback">{{$errors->first('name')}}</p>
 								@endif
@@ -25,7 +25,7 @@
 
                             <div class="form-group">
                                 <label for="Email">Email</label>
-                                <input type="text" name="email" class="form-control {{($errors->any() && $errors->first('email')) ? 'is-invalid' : ''}}" value="{{old('email')}}">
+                                <input type="text" name="email" class="form-control {{($errors->any() && $errors->first('email')) ? 'is-invalid' : ''}}" value="{{@old('email')}}">
                                 @if($errors->any())
 									<p class="invalid-feedback">{{$errors->first('email')}}</p>
 								@endif

@@ -6,6 +6,12 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @if(session()->has('success'))
+        <div class="alert alert-success">{{ session('success' )}}</div>
+    @endif
+    @if(session()->has('failure'))
+        <div class="alert alert-danger">{{ session('failure' )}}</div>
+    @endif
 
         <div class="row">
             <div class="col-md-12">
@@ -188,7 +194,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2>Lastest 10 News</h2>
+                        <h2>Latest 10 News</h2>
                     </div>
                     <div class="card-body no-padding">
                         <div class="table-responsive">
@@ -250,7 +256,92 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Latest 10 Drafts</h2>
+                    </div>
+                    <div class="card-body no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">News Id</th>
+                                        <th class="text-center">Image</th>
+                                        <th class="text-center">Title</th>
+                                        <th class="text-center">Category</th>
+                                        <th class="text-center" colspan="2">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if ($draftnews->count() == 0)
+                                        <tr>
+                                            <td colspan="5">There are no drafts yet.</td>
+                                        </tr>
+                                    @else
+                                        @foreach ($draftnews as $draftnewsitem)
+                                            <tr>
+                                                <td>{{$draftnewsitem->id}}</td>
+                                                <td>
+                                                    @if ($draftnewsitem->image == null)
+                                                        <img src="{{Storage::disk('uploads')->url('noimage.jpg')}}" alt="{{$draftnewsitem->title}}" style="max-height: 100px;">
+                                                    @else
+                                                        <img src="{{Storage::disk('uploads')->url($draftnewsitem->image)}}" alt="{{$draftnewsitem->title}}" style="max-height: 100px;">
+                                                    @endif
+
+                                                </td>
+                                                <td>
+                                                    @if ($draftnewsitem->title == null)
+                                                        No title
+                                                    @else
+                                                        {{$draftnewsitem->title}}
+                                                    @endif
+
+                                                </td>
+                                                <td>
+                                                    @if ($draftnewsitem->category_id == null)
+                                                        No Category
+                                                    @else
+                                                        @php
+                                                            foreach ($draftnewsitem->category_id as $category) {
+                                                                $categories = DB::table('categories')->where('id', $category)->first();
+                                                                echo '<span class="badge bg-green">'.$categories->title.'</span> ';
+                                                            }
+                                                        @endphp
+                                                    @endif
+
+                                                </td>
+                                                <td>
+                                                    <a href={{route('draftnews.edit', $draftnewsitem->id)}} class='edit btn btn-primary btn-sm px-3' style='margin-top: 3px;'>Edit</a>
+
+                                                    <form action={{route('draftnews.destroy', $draftnewsitem->id)}} method='POST' style='display:inline-block; margin-top: 3px;'>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                            <button type='submit' class='btn btn-danger btn-sm'>Delete</button>
+                                                    </form>
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right"><a href="{{route('news.index')}}" class="btn btn-primary">View All News</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-center">

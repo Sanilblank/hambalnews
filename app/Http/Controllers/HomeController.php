@@ -31,10 +31,11 @@ class HomeController extends Controller
         $totalnews = News::where('draft', 0)->get();
         $totalsubscribers = Subscribers::get();
         $subscribers = Subscribers::latest()->take(10)->get();
+        $draftnews = News::latest()->where('draft', 1)->get();
         $total_views = 0;
         foreach ($totalnews as $singlenews) {
             $total_views = $total_views + $singlenews->view_count;
         }
-        return view('backend.dashboard', compact('setting', 'news', 'totalnews', 'subscribers', 'totalsubscribers', 'total_views'));
+        return view('backend.dashboard', compact('setting', 'news', 'totalnews', 'subscribers', 'totalsubscribers', 'total_views', 'draftnews'));
     }
 }

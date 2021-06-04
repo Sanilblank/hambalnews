@@ -241,6 +241,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        $subcategoryerror = 0;
         if ($request->ajax()) {
             $this->validate($request, [
                 'file' => 'required|max:500'
@@ -283,7 +284,9 @@ class NewsController extends Controller
                 $subcategory = Subcategory::where('id', $sub)->first();
                 if(!in_array($subcategory->category_id, $request['category']))
                 {
-                    return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    $draft = 1;
+                    $subcategoryerror = 1;
+                    // return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
                 }
             }
         }
@@ -369,12 +372,14 @@ class NewsController extends Controller
             FrontController::sendNews($news, $category);
             return redirect()->route('news.index')->with('success', 'News information saved successfully.');
         }
+        elseif($draft == 1 && $subcategoryerror == 1)
+        {
+            return redirect()->route('draftnews.edit', $news->id)->with('failure', 'Subcategory does not exist in selected categories. Please check.');
+        }
         else
         {
-            return redirect()->route('news.index')->with('success', 'Some information was empty so, News information saved successfully as draft.');
+            return redirect()->route('draftnews.index')->with('success', 'Some fields were empty so, News has been saved as draft.');
         }
-
-
 
     }
 

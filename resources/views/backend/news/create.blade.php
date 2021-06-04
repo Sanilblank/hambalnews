@@ -28,7 +28,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" name="title" class="form-control {{($errors->any() && $errors->first('title')) ? 'is-invalid' : ''}}" value="{{old('title')}}" placeholder="News Title">
+                                        <input type="text" name="title" class="form-control {{($errors->any() && $errors->first('title')) ? 'is-invalid' : ''}}" value="{{@old('title')}}" placeholder="News Title">
                                         @error('title')
                                             <p class="text-danger">{{$message}}</p>
                                         @enderror
@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="author">Author</label>
-                                        <input type="text" name="author" class="form-control" placeholder="Author Name">
+                                        <input type="text" name="author" class="form-control" placeholder="Author Name" {{@old('author')}}>
                                         @error('author')
                                             <div class="text-danger">{{$message}}</div>
                                         @enderror
@@ -90,7 +90,7 @@
 
                             <div class="form-group">
                                 <label for="Details">News Details</label>
-                                <textarea name="details" id="description" class="form-control"></textarea>
+                                <textarea name="details" id="description" class="form-control">{{@old('details')}}</textarea>
                                 @error('details')
                                     <p class="text-danger">{{$message}}</p>
                                 @enderror
@@ -131,7 +131,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="seotitle">SEO Title</label>
-                                        <input type="text" name="seotitle" class="form-control" value="{{old('seotitle')}}" placeholder="SEO Title">
+                                        <input type="text" name="seotitle" class="form-control" value="{{@old('seotitle')}}" placeholder="SEO Title">
                                         @error('seotitle')
                                             <p class="text-danger">{{$message}}</p>
                                         @enderror
@@ -140,7 +140,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tags">SEO Keywords (Tags)</label>
-                                        <input type="text" class="form-control" name="tags" value="{{old('tags')}}" data-role="tagsinput">
+                                        <input type="text" class="form-control" name="tags" value="{{@old('tags')}}" data-role="tagsinput">
                                         <p class="text-success">Note* :Seperate each one by comma.</p>
                                         @error('tags')
                                             <p class="text-danger">{{$message}}</p>
@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <label for="seodescription">SEO Description</label>
-                                    <textarea name="seodescription" class="form-control" cols="10" rows="10" placeholder="SEO Description here...">{{old('seodescription')}}</textarea>
+                                    <textarea name="seodescription" class="form-control" cols="10" rows="10" placeholder="SEO Description here...">{{@old('seodescription')}}</textarea>
                                     @error('seodescription')
                                         <p class="text-danger">{{$message}}</p>
                                     @enderror
