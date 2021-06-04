@@ -83,7 +83,7 @@ Route::get('/search', [FrontController::class, 'pageSearch'])->name('page.search
 Route::get('/registerSubscriber', [FrontController::class, 'registerSubscriber'])->name('register.subscriber');
 Route::get('/confirm', [FrontController::class, 'confirmSubscribtion'])->name('confirm.subscribtion');
 Auth::routes();
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/{slug}', [FrontController::class, 'pageCategory'])->name('page.category');
 Route::get('/subcategory/{id}/{slug}', [FrontController::class, 'pageSubcategory'])->name('page.subcategory');
 Route::get('/author/{name}', [FrontController::class, 'pageAuthor'])->name('page.author');

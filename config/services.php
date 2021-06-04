@@ -16,7 +16,7 @@ return [
 
     'facebook_poster' => [
         'page_id' => env('FACEBOOK_PAGE_ID', '105808608389244'),
-        'access_token' => env('FACEBOOK_ACCESS_TOKEN', 'EAAM4W6G5U1gBANYpZB0FFABTZA3f1XtNx7GqCcI81WAzzOe36KRAet3vQuTKCly8xalkf8WViZCNsR40WC1GZCgJ9EmwwzJXmcIxkZBTbHw9QoahHr9IZCQn6AOXpZCx6Ou3ZAgbmGXySkilfI2VarHgZC6tFrno9y838YwPuEKnw7YUfo0XYHqp2WBQPf12bRLPKpgV1aM7NlrKzYkpmdpZBChlIYIjz0t0sZD'),
+        'access_token' => env('FACEBOOK_ACCESS_TOKEN', 'EAAp8xGYTIEIBAAJcYUxwEP1kGW3EVF0XGUby1HMbFiX2QHs7oKccPbkeyZC2DNWkg4OInjiDd7HvKgZCIHgFlxZCuyHU0KGE5ZCwMZAGeo6hvHbXLiU9ufNLIEkpzqRZCZBclmCRCjamofYfsZAA5K7Jejiss78WCEEVJjZCFmewn1QGBXzRBHbNeforbmZAaJ897lWOAnpB67ZCgZDZD'),
     ],
 
     'mailgun' => [

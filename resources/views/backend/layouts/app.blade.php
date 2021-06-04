@@ -131,7 +131,7 @@
       </li> --}}
 
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url('/dashboard')}}" class="nav-link"><i class="fas fa-user"></i> {{Auth::user()->name}}</a>
+        <a href="{{url('/home')}}" class="nav-link"><i class="fas fa-user"></i> {{Auth::user()->name}}</a>
       </li>
 
 
@@ -142,7 +142,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{url('/dashboard')}}" class="brand-link">
+    <a href="{{url('/home')}}" class="brand-link">
       <img src="{{asset('frontend/assets/img/lf.png')}}" alt="{{$setting->sitename}}" class="brand-image img-circle elevation-3" style="opacity: .8; background-color: white;">
       <span class="brand-text font-weight-light">{{$setting->sitename}}</span>
     </a>
@@ -177,7 +177,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
               <li class="nav-item active">
-                <a href="{{url('/dashboard')}}" class="nav-link">
+                <a href="{{url('/home')}}" class="nav-link">
                   <i class="fas fa-home nav-icon"></i>
                   <p>Dashboard</p>
                 </a>

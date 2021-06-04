@@ -27,8 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         $setting = Setting::first();
-        $news = News::latest()->take(10)->get();
-        $totalnews = News::get();
+        $news = News::latest()->where('draft', 0)->take(10)->get();
+        $totalnews = News::where('draft', 0)->get();
         $totalsubscribers = Subscribers::get();
         $subscribers = Subscribers::latest()->take(10)->get();
         $total_views = 0;
