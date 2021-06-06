@@ -42,7 +42,7 @@ class TwitterNotification extends Notification
     {
         $category = $this->news['category_id'];
         $reqcategory = Category::where('id', $category[0])->first();
-        return (new TwitterStatusUpdate($this->news['title'] . ' ' .'Click here to view details: https://hambalnews.com/' . $reqcategory->slug . '/' . $this->news['slug']))->withImage('uploads/' . $this->news['image']);
+        return (new TwitterStatusUpdate($this->news['title'] . ' ' .'https://hambalnews.com/' . $reqcategory->slug . '/' . $this->news['slug']))->withImage('uploads/' . $this->news['image']);
     }
 
     /**

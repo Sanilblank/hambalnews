@@ -20,7 +20,7 @@
                             <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
                             <div class="trending-animated">
                                 <ul id="js-news" class="js-hidden">
-                                    @foreach ($popularnews as $newsitem)
+                                    @foreach ($todaytrendingnews as $newsitem)
                                     @php
                                         $category = DB::table('categories')->where('id', $newsitem->category_id[0])->first();
                                     @endphp
@@ -211,6 +211,11 @@
                             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                 <div class="whats-news-caption">
                                     <div class="row">
+                                        @if (count($categoryallnews) == 0)
+                                                            <div class="col-lg-12 text-center">
+                                                                <h4>No news</h4>
+                                                            </div>
+                                                        @endif
                                         @foreach ($categoryallnews as $news)
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="single-what-news mb-100">
@@ -221,6 +226,7 @@
                                                         <a href="{{route('page.news', ['categoryslug' => $category->slug, 'slug' => $news->slug])}}"><img src="{{Storage::disk('uploads')->url($news->image)}}" alt="{{$news->title}}"></a>
                                                     </div>
                                                     <div class="what-cap">
+
                                                         @foreach ($news->category_id as $category)
                                                             @php
                                                                 $categories_name = DB::table('categories')->where('id', $category)->first();

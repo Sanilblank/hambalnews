@@ -42,14 +42,15 @@ class FrontController extends Controller
             }
         }
         $advertisement = Advertisement::first();
-        $categoryallnews = News::latest()->where('draft', 0)->take(4)->get();
-        $allthenews = News::latest()->where('featured', '1')->where('draft', 0)->get();
+        $categoryallnews = News::latest()->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(4)->get();
+        $allthenews = News::latest()->where('featured', '1')->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->get();
+        $todaytrendingnews = News::latest()->where('is_trending', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(5)->get();
         $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(5)->get();
         $trendingone = News::latest()->where('is_trending', 1)->where('draft', 0)->first();
         $trendingthree = News::where('is_trending', 1)->where('draft', 0)->take(3)->get();
         $trendingfive = News::latest()->where('is_trending', 1)->where('draft', 0)->take(5)->get();
         $recentnews = News::latest()->where('draft', 0)->take(5)->get();
-        return view('frontend.index', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'trendingone', 'trendingthree', 'trendingfive', 'downmenucategories', 'menucategories', 'popularnews', 'advertisement', 'allthenews', 'recentnews', 'categoryallnews'));
+        return view('frontend.index', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'trendingone', 'trendingthree', 'trendingfive', 'downmenucategories', 'menucategories', 'popularnews', 'advertisement', 'allthenews', 'recentnews', 'categoryallnews', 'todaytrendingnews'));
     }
 
     public function aboutus()

@@ -14,11 +14,6 @@ return [
     |
     */
 
-    'facebook_poster' => [
-        'page_id' => env('FACEBOOK_PAGE_ID'),
-        'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
-    ],
-
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
@@ -33,6 +28,11 @@ return [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    ],
+
+    'facebook_poster' => [
+        'page_id' => env('FACEBOOK_PAGE_ID'),
+        'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
     ],
 
     'twitter' => [

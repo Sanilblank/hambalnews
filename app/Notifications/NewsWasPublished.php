@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Category;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -19,9 +20,10 @@ class NewsWasPublished extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($news)
     {
         //
+        $this->news = $news;
     }
 
     /**
@@ -36,8 +38,10 @@ class NewsWasPublished extends Notification
     }
 
     public function toFacebookPoster($notifiable) {
-        return (new FacebookPosterPost('Laravel notifications are awesome!'))
-            ->withLink('https://www.hambalnews.com');
+        $category = $this->news['category_id'];
+        $reqcategory = Category::where('id', $category[0])->first();
+        $link = 'https://hambalnews.com/' . $reqcategory->slug . '/' . $this->news['slug'];
+        return (new FacebookPosterPost($link))->withLink($link);
     }
 
     /**
