@@ -127,6 +127,7 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'N' => 
         array (
             'NunoMaduro\\Collision\\' => 21,
+            'NotificationChannels\\Twitter\\' => 29,
             'NotificationChannels\\FacebookPoster\\' => 36,
         ),
         'M' => 
@@ -183,6 +184,7 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'C' => 
         array (
             'Cron\\' => 5,
+            'Composer\\CaBundle\\' => 18,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -195,6 +197,7 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
             'Asm89\\Stack\\' => 12,
             'Artesaos\\SEOTools\\' => 18,
             'App\\' => 4,
+            'Abraham\\TwitterOAuth\\' => 21,
         ),
     );
 
@@ -429,6 +432,10 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         array (
             0 => __DIR__ . '/..' . '/nunomaduro/collision/src',
         ),
+        'NotificationChannels\\Twitter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src',
+        ),
         'NotificationChannels\\FacebookPoster\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel-notification-channels/facebook-poster/src',
@@ -558,6 +565,10 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -582,6 +593,10 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Abraham\\TwitterOAuth\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/abraham/twitteroauth/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -592,9 +607,27 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
+        'K' => 
+        array (
+            'Kylewm\\Brevity' => 
+            array (
+                0 => __DIR__ . '/..' . '/kylewm/brevity/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
+        'Abraham\\TwitterOAuth\\Config' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Config.php',
+        'Abraham\\TwitterOAuth\\Consumer' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Consumer.php',
+        'Abraham\\TwitterOAuth\\HmacSha1' => __DIR__ . '/..' . '/abraham/twitteroauth/src/HmacSha1.php',
+        'Abraham\\TwitterOAuth\\Request' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Request.php',
+        'Abraham\\TwitterOAuth\\Response' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Response.php',
+        'Abraham\\TwitterOAuth\\SignatureMethod' => __DIR__ . '/..' . '/abraham/twitteroauth/src/SignatureMethod.php',
+        'Abraham\\TwitterOAuth\\Token' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Token.php',
+        'Abraham\\TwitterOAuth\\TwitterOAuth' => __DIR__ . '/..' . '/abraham/twitteroauth/src/TwitterOAuth.php',
+        'Abraham\\TwitterOAuth\\TwitterOAuthException' => __DIR__ . '/..' . '/abraham/twitteroauth/src/TwitterOAuthException.php',
+        'Abraham\\TwitterOAuth\\Util' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Util.php',
+        'Abraham\\TwitterOAuth\\Util\\JsonDecoder' => __DIR__ . '/..' . '/abraham/twitteroauth/src/Util/JsonDecoder.php',
         'App\\Console\\Commands\\GenerateSitemap' => __DIR__ . '/../..' . '/app/Console/Commands/GenerateSitemap.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -647,6 +680,8 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'App\\Models\\Subscribers' => __DIR__ . '/../..' . '/app/Models/Subscribers.php',
         'App\\Models\\Tags' => __DIR__ . '/../..' . '/app/Models/Tags.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Notifications\\NewsWasPublished' => __DIR__ . '/../..' . '/app/Notifications/NewsWasPublished.php',
+        'App\\Notifications\\TwitterNotification' => __DIR__ . '/../..' . '/app/Notifications/TwitterNotification.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -805,6 +840,7 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'Carbon\\Traits\\Units' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Units.php',
         'Carbon\\Traits\\Week' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Traits/Week.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
+        'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
@@ -2947,6 +2983,8 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Kylewm\\Brevity\\Brevity' => __DIR__ . '/..' . '/kylewm/brevity/src/Kylewm/Brevity/Brevity.php',
+        'Kylewm\\Brevity\\Token' => __DIR__ . '/..' . '/kylewm/brevity/src/Kylewm/Brevity/Token.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
         'Laravel\\Tinker\\TinkerCaster' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerCaster.php',
@@ -3461,6 +3499,12 @@ class ComposerStaticInitb615815f71e523ae5826277ea15727a9
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'NotificationChannels\\FacebookPoster\\FacebookPosterChannel' => __DIR__ . '/..' . '/laravel-notification-channels/facebook-poster/src/FacebookPosterChannel.php',
         'NotificationChannels\\FacebookPoster\\FacebookPosterPost' => __DIR__ . '/..' . '/laravel-notification-channels/facebook-poster/src/FacebookPosterPost.php',
+        'NotificationChannels\\Twitter\\Exceptions\\CouldNotSendNotification' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/Exceptions/CouldNotSendNotification.php',
+        'NotificationChannels\\Twitter\\TwitterChannel' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/TwitterChannel.php',
+        'NotificationChannels\\Twitter\\TwitterDirectMessage' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/TwitterDirectMessage.php',
+        'NotificationChannels\\Twitter\\TwitterImage' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/TwitterImage.php',
+        'NotificationChannels\\Twitter\\TwitterServiceProvider' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/TwitterServiceProvider.php',
+        'NotificationChannels\\Twitter\\TwitterStatusUpdate' => __DIR__ . '/..' . '/laravel-notification-channels/twitter/src/TwitterStatusUpdate.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/CollisionServiceProvider.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/Commands/TestCommand.php',
         'NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Laravel/ExceptionHandler.php',

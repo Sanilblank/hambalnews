@@ -78,7 +78,7 @@
                         <ul>
                             <li><a href="{{route('aboutus')}}">हाम्रोबारे</a></li>
                             <li><a href="#">प्रयोगका सर्तहरू</a></li>
-                            <li><a href="#">गोपनीयता नीति</a></li>
+                            <li><a href="{{route('privacypolicy')}}">गोपनीयता नीति</a></li>
                             <!--<li><a href="#">Contact</a></li>-->
                         </ul>
                     </div>

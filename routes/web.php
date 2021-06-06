@@ -41,8 +41,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('draftnews/{id}/delete', [NewsController::class, 'draftnewsdestroy'])->name('draftnews.destroy');
 
 
-
-
     Route::resource('multimedia', MultimediaController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('advertisements', AdvertisementController::class);
@@ -79,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/', [FrontController::class, 'index'])->name('index');
 Route::get('/aboutus', [FrontController::class, 'aboutus'])->name('aboutus');
+Route::get('/privacypolicy', [FrontController::class, 'privacypolicy'])->name('privacypolicy');
 Route::get('/search', [FrontController::class, 'pageSearch'])->name('page.search');
 Route::get('/registerSubscriber', [FrontController::class, 'registerSubscriber'])->name('register.subscriber');
 Route::get('/confirm', [FrontController::class, 'confirmSubscribtion'])->name('confirm.subscribtion');

@@ -11,11 +11,15 @@ use App\Models\Tags;
 use App\Models\Setting;
 use App\Models\Subcategory;
 use App\Notifications\NewsWasPublished;
+use App\Notifications\TwitterNotification;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
+use NotificationChannels\Twitter\TwitterChannel;
 
 class NewsController extends Controller
 {
@@ -369,6 +373,7 @@ class NewsController extends Controller
         {
             $category = Category::where('id', $news->category_id[0])->first();
             // $news->notify(new NewsWasPublished($news));
+            $news->notify(new TwitterNotification($news));
             FrontController::sendNews($news, $category);
             return redirect()->route('news.index')->with('success', 'News information saved successfully.');
         }

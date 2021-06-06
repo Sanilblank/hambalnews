@@ -30,11 +30,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '012e920b2d24523c8a09a360e9847ace6c773ce9',
+    'reference' => '920579c4cbc57b629a99fb0d3928bb19a5fbd6b9',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
+    'abraham/twitteroauth' => 
+    array (
+      'pretty_version' => '2.0.1',
+      'version' => '2.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'af6d0ba772731d4f83524fccb24281fe6149ef43',
+    ),
     'artesaos/seotools' => 
     array (
       'pretty_version' => 'v0.20.1',
@@ -70,6 +79,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
+    ),
+    'composer/ca-bundle' => 
+    array (
+      'pretty_version' => '1.2.9',
+      'version' => '1.2.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
     ),
     'cordoval/hamcrest-php' => 
     array (
@@ -471,6 +489,15 @@ private static $installed = array (
         0 => '*',
       ),
     ),
+    'kylewm/brevity' => 
+    array (
+      'pretty_version' => '0.2.10',
+      'version' => '0.2.10.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9700a3ca666ff9486bd8bed322d7096ef78b6580',
+    ),
     'laravel-notification-channels/facebook-poster' => 
     array (
       'pretty_version' => '5.0.0',
@@ -479,6 +506,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '325df43c4cf0f01416115bc3a0c521f7b9ef91a9',
+    ),
+    'laravel-notification-channels/twitter' => 
+    array (
+      'pretty_version' => 'v5.1.0',
+      'version' => '5.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'bcab129f7f294b0a192aaefbfde7266a39a6b2ba',
     ),
     'laravel/framework' => 
     array (
@@ -496,7 +532,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '012e920b2d24523c8a09a360e9847ace6c773ce9',
+      'reference' => '920579c4cbc57b629a99fb0d3928bb19a5fbd6b9',
     ),
     'laravel/tinker' => 
     array (

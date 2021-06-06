@@ -349,4 +349,27 @@ class FrontController extends Controller
             Mail::to($subscriber->email)->send(new SubscriberMail($mailData));
         }
     }
+
+    public function privacypolicy()
+    {
+        $setting = Setting::first();
+        $header_advertisement = HeaderAdvertisements::latest()->where('status', 1)->get();
+        $sidebar_advertisement = SidebarAdvertisements::latest()->where('status', 1)->get();
+        $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
+        $advertisement = Advertisement::first();
+        $leftcategory = [];
+        $categories = Category::all()->toArray();
+        $menucategories = Category::take(7)->get()->toArray();;
+        foreach ($categories as $category) {
+            if (in_array($category, $menucategories)) {
+            } else {
+                array_push($leftcategory, $category);
+            }
+        }
+        $requiredcategories = Category::take(6)->get();
+        $allnews = News::latest()->where('draft', 0)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
+        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
+        return view('frontend.privacypolicy', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'menucategories', 'advertisement', 'requiredcategories', 'allnews', 'popularnews', 'latestnews'));
+    }
 }

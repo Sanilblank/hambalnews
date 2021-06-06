@@ -15,8 +15,8 @@ return [
     */
 
     'facebook_poster' => [
-        'page_id' => env('FACEBOOK_PAGE_ID', '105808608389244'),
-        'access_token' => env('FACEBOOK_ACCESS_TOKEN', 'EAAp8xGYTIEIBAAJcYUxwEP1kGW3EVF0XGUby1HMbFiX2QHs7oKccPbkeyZC2DNWkg4OInjiDd7HvKgZCIHgFlxZCuyHU0KGE5ZCwMZAGeo6hvHbXLiU9ufNLIEkpzqRZCZBclmCRCjamofYfsZAA5K7Jejiss78WCEEVJjZCFmewn1QGBXzRBHbNeforbmZAaJ897lWOAnpB67ZCgZDZD'),
+        'page_id' => env('FACEBOOK_PAGE_ID'),
+        'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
     ],
 
     'mailgun' => [
@@ -34,5 +34,12 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+
+    'twitter' => [
+        'consumer_key'    => env('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => env('TWITTER_CONSUMER_SECRET'),
+        'access_token'    => env('TWITTER_ACCESS_TOKEN'),
+        'access_secret'   => env('TWITTER_ACCESS_SECRET')
+    ]
 
 ];
