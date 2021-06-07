@@ -373,7 +373,7 @@ class NewsController extends Controller
         {
             $category = Category::where('id', $news->category_id[0])->first();
             // $news->notify(new NewsWasPublished($news));
-            $news->notify(new TwitterNotification($news));
+            // $news->notify(new TwitterNotification($news));
             FrontController::sendNews($news, $category);
             return redirect()->route('news.index')->with('success', 'News information saved successfully.');
         }
