@@ -32,9 +32,9 @@ class FrontController extends Controller
         $sidebar_advertisement = SidebarAdvertisements::latest()->where('status', 1)->get();
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();
-        $downmenucategories = Category::take(3)->get()->toArray();
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();
+        $downmenucategories = Category::where('status', 1)->take(3)->get()->toArray();
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -42,14 +42,14 @@ class FrontController extends Controller
             }
         }
         $advertisement = Advertisement::first();
-        $categoryallnews = News::latest()->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(4)->get();
-        $allthenews = News::latest()->where('featured', '1')->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->get();
-        $todaytrendingnews = News::latest()->where('is_trending', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(5)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(5)->get();
-        $trendingone = News::latest()->where('is_trending', 1)->where('draft', 0)->first();
-        $trendingthree = News::where('is_trending', 1)->where('draft', 0)->take(3)->get();
-        $trendingfive = News::latest()->where('is_trending', 1)->where('draft', 0)->take(5)->get();
-        $recentnews = News::latest()->where('draft', 0)->take(5)->get();
+        $categoryallnews = News::latest()->where('status', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(4)->get();
+        $allthenews = News::latest()->where('status', 1)->where('featured', '1')->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->get();
+        $todaytrendingnews = News::latest()->where('status', 1)->where('is_trending', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(5)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(5)->get();
+        $trendingone = News::latest()->where('is_trending', 1)->where('status', 1)->where('draft', 0)->first();
+        $trendingthree = News::where('is_trending', 1)->where('status', 1)->where('draft', 0)->take(3)->get();
+        $trendingfive = News::latest()->where('is_trending', 1)->where('status', 1)->where('draft', 0)->take(5)->get();
+        $recentnews = News::latest()->where('status', 1)->where('draft', 0)->take(5)->get();
         return view('frontend.index', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'trendingone', 'trendingthree', 'trendingfive', 'downmenucategories', 'menucategories', 'popularnews', 'advertisement', 'allthenews', 'recentnews', 'categoryallnews', 'todaytrendingnews'));
     }
 
@@ -61,18 +61,18 @@ class FrontController extends Controller
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
                 array_push($leftcategory, $category);
             }
         }
-        $requiredcategories = Category::take(6)->get();
-        $allnews = News::latest()->where('draft', 0)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $allnews = News::latest()->where('status', 1)->where('draft', 0)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
         return view('frontend.aboutus', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'menucategories', 'advertisement', 'requiredcategories', 'allnews', 'popularnews', 'latestnews'));
     }
 
@@ -84,8 +84,8 @@ class FrontController extends Controller
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -93,13 +93,13 @@ class FrontController extends Controller
             }
         }
         $category = Category::where('slug', $slug)->first();
-        $requiredcategories = Category::take(6)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
         SEOMeta::setTitle($category->title);
-        $allnews = News::latest()->where('draft', 0)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
-        $news = News::whereJsonContains('category_id',"$category->id")->latest()->where('draft', 0)->simplePaginate(20);
-        $onenews = News::whereJsonContains('category_id',"$category->id")->where('draft', 0)->first();
+        $allnews = News::latest()->where('status', 1)->where('draft', 0)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
+        $news = News::whereJsonContains('category_id',"$category->id")->latest()->where('status', 1)->where('draft', 0)->simplePaginate(20);
+        $onenews = News::whereJsonContains('category_id',"$category->id")->where('status', 1)->where('draft', 0)->first();
         // $news = [];
         // $onenews = '';
         // foreach ($allnews as $newsitem) {
@@ -119,8 +119,8 @@ class FrontController extends Controller
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -128,14 +128,14 @@ class FrontController extends Controller
             }
         }
         $category = Subcategory::where('slug', $slug)->first();
-        $requiredcategories = Category::take(6)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
         SEOMeta::setTitle($category->title);
-        $allnews = News::latest()->where('draft', 0)->get();
+        $allnews = News::latest()->where('status', 1)->where('draft', 0)->get();
         // $subcategorynews = News::whereJsonContains('subcategory_id',$id)->latest()->where('draft', 0)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
-        $news = News::whereJsonContains('subcategory_id',$id)->where('draft', 0)->latest()->simplePaginate(20);
-        $onenews = News::whereJsonContains('subcategory_id',$id)->where('draft', 0)->first();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
+        $news = News::whereJsonContains('subcategory_id',$id)->where('status', 1)->where('draft', 0)->latest()->simplePaginate(20);
+        $onenews = News::whereJsonContains('subcategory_id',$id)->where('status', 1)->where('draft', 0)->first();
         // foreach ($allnews as $newsitem) {
         //     if (in_array($category->id, $newsitem->category_id)) {
         //         $onenews = $newsitem;
@@ -153,19 +153,19 @@ class FrontController extends Controller
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
                 array_push($leftcategory, $category);
             }
         }
-        $requiredcategories = Category::take(6)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
         $news = News::where('slug', $slug)->first();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $allnews = News::where('draft', 0)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $allnews = News::where('status', 1)->where('draft', 0)->get();
 
         $relatednewsitem = [];
         for ($i = 0; $i < count($news->category_id); $i++) {
@@ -211,8 +211,8 @@ class FrontController extends Controller
 
         SEOMeta::setTitle($name);
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -224,11 +224,11 @@ class FrontController extends Controller
         $sidebar_advertisement = SidebarAdvertisements::latest()->where('status', 1)->get();
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
-        $authornews = News::latest()->where('author', $name)->where('draft', 0)->get();
-        $requiredcategories = Category::take(6)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $allnews = News::where('draft', 0)->get();
+        $authornews = News::latest()->where('status', 1)->where('author', $name)->where('draft', 0)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $allnews = News::where('status', 1)->where('draft', 0)->get();
         return view('frontend.authorarticles', compact('authornews', 'name','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'leftcategory', 'menucategories', 'requiredcategories', 'latestnews', 'popularnews', 'allnews', 'setting', 'advertisement'));
     }
 
@@ -236,8 +236,8 @@ class FrontController extends Controller
     {
         SEOMeta::setTitle('#' . $tag);
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -249,10 +249,10 @@ class FrontController extends Controller
         $sidebar_advertisement = SidebarAdvertisements::latest()->where('status', 1)->get();
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
-        $requiredcategories = Category::take(6)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $allnews = News::where('draft', 0)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $allnews = News::where('status', 1)->where('draft', 0)->get();
         $tagnews = [];
         $tagslug = Str::slug($tag);
         $tags = Tags::where('slug', $tagslug)->get();
@@ -268,7 +268,7 @@ class FrontController extends Controller
         $searchword = $request['word'];
         // $searchednews = News::where('title', 'LIKE', '%' . $searchword . '%')->orWhere('details', 'LIKE', '%' . $searchword . '%')->orWhere('slug', 'LIKE', '%' . $searchword . '%')->get();
 
-        $searchednews = News::where('draft', 0)
+        $searchednews = News::where('status', 1)->where('draft', 0)
            ->where(function ($query) use ($searchword) {
                $query->where('title', 'LIKE', '%' . $searchword . '%')
                      ->orWhere('details', 'LIKE', '%' . $searchword . '%')
@@ -278,8 +278,8 @@ class FrontController extends Controller
 
         SEOMeta::setTitle($searchword);
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
@@ -291,10 +291,10 @@ class FrontController extends Controller
         $sidebar_advertisement = SidebarAdvertisements::latest()->where('status', 1)->get();
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
-        $requiredcategories = Category::take(6)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $allnews = News::where('draft', 0)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $allnews = News::where('status', 1)->where('draft', 0)->get();
         return view('frontend.searchednews', compact('searchword', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'searchednews', 'menucategories', 'requiredcategories', 'latestnews', 'popularnews', 'allnews', 'setting', 'advertisement'));
     }
 
@@ -359,18 +359,18 @@ class FrontController extends Controller
         $bottom_advertisement = BottomAdvertisements::latest()->where('status', 1)->get();
         $advertisement = Advertisement::first();
         $leftcategory = [];
-        $categories = Category::all()->toArray();
-        $menucategories = Category::take(7)->get()->toArray();;
+        $categories = Category::where('status', 1)->get()->toArray();
+        $menucategories = Category::where('status', 1)->take(7)->get()->toArray();;
         foreach ($categories as $category) {
             if (in_array($category, $menucategories)) {
             } else {
                 array_push($leftcategory, $category);
             }
         }
-        $requiredcategories = Category::take(6)->get();
-        $allnews = News::latest()->where('draft', 0)->get();
-        $popularnews = News::orderby('view_count', 'DESC')->where('draft', 0)->take(4)->get();
-        $latestnews = News::latest()->where('draft', 0)->take(4)->get();
+        $requiredcategories = Category::where('status', 1)->take(6)->get();
+        $allnews = News::latest()->where('status', 1)->where('draft', 0)->get();
+        $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
+        $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
         return view('frontend.privacypolicy', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'menucategories', 'advertisement', 'requiredcategories', 'allnews', 'popularnews', 'latestnews'));
     }
 }

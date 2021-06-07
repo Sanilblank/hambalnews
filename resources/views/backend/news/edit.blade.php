@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="Image">Select an image (News Header Image)</label>
                                         <input type="file" name="image" class="form-control">
-                                        <div class="text-danger">Note* : Keep this empty if you wnat previous image.</div>
+                                        <div class="text-danger">Note* : Keep this empty if you want previous image.</div>
                                     </div>
                                 </div>
 
@@ -127,8 +127,14 @@
                                         <label for="trending">Trending Topic</label>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="postfbtwitter" class="form-check-input" value="1"
+                                         style="height: 15px; width: 15px;">
+                                        <label for="postfbtwitter">Post on Facebook and Twitter</label>
+                                    </div>
+                                </div>
                             </div>
-
 
                             <hr class="mt-5">
                             <div class="row">

@@ -58,15 +58,15 @@ class NewsController extends Controller
                         }
                         return $featured;
                     })
-                    // ->addColumn('status', function ($row) {
-                    //     $status = $row->status;
-                    //     if ($status == 1) {
-                    //         $status = "Approved";
-                    //     } else {
-                    //         $status = "Not Approved";
-                    //     }
-                    //     return $status;
-                    // })
+                    ->addColumn('status', function ($row) {
+                        $status = $row->status;
+                        if ($status == 1) {
+                            $status = "Approved";
+                        } else {
+                            $status = "Not Approved";
+                        }
+                        return $status;
+                    })
 
                     ->addColumn('is_trending', function ($row) {
                         $is_trending = $row->is_trending;
@@ -150,15 +150,15 @@ class NewsController extends Controller
                         }
                         return $featured;
                     })
-                    // ->addColumn('status', function ($row) {
-                    //     $status = $row->status;
-                    //     if ($status == 1) {
-                    //         $status = "Approved";
-                    //     } else {
-                    //         $status = "Not Approved";
-                    //     }
-                    //     return $status;
-                    // })
+                    ->addColumn('status', function ($row) {
+                        $status = $row->status;
+                        if ($status == 1) {
+                            $status = "Approved";
+                        } else {
+                            $status = "Not Approved";
+                        }
+                        return $status;
+                    })
 
                     ->addColumn('is_trending', function ($row) {
                         $is_trending = $row->is_trending;
@@ -227,7 +227,7 @@ class NewsController extends Controller
             array_push($rolespermission, $rolepermission->permission_id);
         }
         if (in_array(5, $rolespermission)) {
-            $categories = Category::all();
+            $categories = Category::where('status', 1)->get();
             $subcategories = Subcategory::where('status', 1)->get();
             $images = NewsImage::where('news_id', 0)->get();
             $setting = Setting::first();
@@ -372,9 +372,13 @@ class NewsController extends Controller
         if($draft == 0)
         {
             $category = Category::where('id', $news->category_id[0])->first();
-            // $news->notify(new NewsWasPublished($news));
-            // $news->notify(new TwitterNotification($news));
-            FrontController::sendNews($news, $category);
+            if($request['status'] == 1)
+            {
+                // $news->notify(new NewsWasPublished($news));
+                // $news->notify(new TwitterNotification($news));
+                FrontController::sendNews($news, $category);
+            }
+
             return redirect()->route('news.index')->with('success', 'News information saved successfully.');
         }
         elseif($draft == 1 && $subcategoryerror == 1)
@@ -414,7 +418,7 @@ class NewsController extends Controller
         }
         if (in_array(5, $rolespermission)) {
             $news = News::findorfail($id);
-            $categories = Category::all();
+            $categories = Category::where('status', 1)->get();
             $subcategories = Subcategory::where('status', 1)->get();
             $tags_info = Tags::where('news_id', $id)->get();
             $setting = Setting::first();
@@ -438,7 +442,7 @@ class NewsController extends Controller
         }
         if (in_array(5, $rolespermission)) {
             $news = News::findorfail($id);
-            $categories = Category::all();
+            $categories = Category::where('status', 1)->get();
             $subcategories = Subcategory::where('status', 1)->get();
             $tags_info = Tags::where('news_id', $id)->get();
             $setting = Setting::first();
@@ -589,8 +593,13 @@ class NewsController extends Controller
         if($draft == 0)
         {
             $category = Category::where('id', $news->category_id[0])->first();
-            // $news->notify(new NewsWasPublished($news));
-            FrontController::sendNews($news, $category);
+            if($request['status'] == 1)
+            {
+                // $news->notify(new NewsWasPublished($news));
+                // $news->notify(new TwitterNotification($news));
+                FrontController::sendNews($news, $category);
+            }
+
             return redirect()->route('draftnews.index')->with('success', 'News information updated successfully as non draft.');
         }
         else
@@ -678,6 +687,17 @@ class NewsController extends Controller
             'seotitle' => $data['seotitle'],
             'seodescription' => $data['seodescription'],
         ]);
+
+        if($request['status'] == 0 && $request['postfbtwitter'] == 1)
+        {
+            return redirect()->back()->with('failure', 'Cannot Post unapproved news on facebook and twitter. Please check status box.');
+        }
+
+        if($request['status'] == 1 && $request['postfbtwitter'] == 1)
+        {
+            // $news->notify(new NewsWasPublished($news));
+            // $news->notify(new TwitterNotification($news));
+        }
 
         return redirect()->route('news.index')->with('success', 'News information updated successfully.');
     }

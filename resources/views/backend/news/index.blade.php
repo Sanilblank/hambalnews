@@ -31,7 +31,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Category</th>
-                                    {{-- <th>Status</th> --}}
+                                    <th>Status</th>
                                     <th>Featured</th>
                                     <th>Is Trending</th>
                                     <th>View count</th>
@@ -66,7 +66,7 @@
               {data: 'image', name: 'image'},
               {data: 'title', name: 'title'},
               {data: 'category', name: 'category'},
-            //   {data: 'status', name: 'status'},
+              {data: 'status', name: 'status'},
               {data: 'featured', name: 'featured'},
               {data: 'is_trending', name: 'is_trending'},
               {data: 'view_count', name: 'view_count'},
