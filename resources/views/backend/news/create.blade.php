@@ -117,6 +117,13 @@
                                         <label for="trending">Trending Topic</label>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="postfbtwitter" class="form-check-input" value="1"
+                                         style="height: 15px; width: 15px;">
+                                        <label for="postfbtwitter">Post on Facebook and Twitter</label>
+                                    </div>
+                                </div>
                             </div>
 
                             <hr class="mt-5">

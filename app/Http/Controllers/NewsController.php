@@ -246,6 +246,7 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $subcategoryerror = 0;
+        $posterror = 0;
         if ($request->ajax()) {
             $this->validate($request, [
                 'file' => 'required|max:500'
@@ -293,6 +294,12 @@ class NewsController extends Controller
                     // return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
                 }
             }
+        }
+
+        if($request['status'] == 0 && $request['postfbtwitter'] == 1)
+        {
+            $draft = 1;
+            $posterror = 1;
         }
 
 
@@ -372,7 +379,7 @@ class NewsController extends Controller
         if($draft == 0)
         {
             $category = Category::where('id', $news->category_id[0])->first();
-            if($request['status'] == 1)
+            if($request['status'] == 1 && $request['postfbtwitter'] == 1)
             {
                 // $news->notify(new NewsWasPublished($news));
                 // $news->notify(new TwitterNotification($news));
@@ -384,6 +391,10 @@ class NewsController extends Controller
         elseif($draft == 1 && $subcategoryerror == 1)
         {
             return redirect()->route('draftnews.edit', $news->id)->with('failure', 'Subcategory does not exist in selected categories. Please check.');
+        }
+        elseif($draft == 1 && $posterror == 1)
+        {
+            return redirect()->route('draftnews.edit', $news->id)->with('failure', 'Cannot Post unapproved news on facebook and twitter. Please check status box.');
         }
         else
         {
@@ -590,10 +601,16 @@ class NewsController extends Controller
 
         }
 
+
+        if($request['status'] == 0 && $request['postfbtwitter'] == 1)
+        {
+            return redirect()->back()->with('failure', 'Cannot Post unapproved news on facebook and twitter. Please check status box.');
+        }
+
         if($draft == 0)
         {
             $category = Category::where('id', $news->category_id[0])->first();
-            if($request['status'] == 1)
+            if($request['status'] == 1 && $request['postfbtwitter'] == 1)
             {
                 // $news->notify(new NewsWasPublished($news));
                 // $news->notify(new TwitterNotification($news));
