@@ -43,14 +43,15 @@ class FrontController extends Controller
         }
         $advertisement = Advertisement::first();
         $categoryallnews = News::latest()->where('status', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(4)->get();
-        $allthenews = News::latest()->where('status', 1)->where('featured', '1')->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->get();
+        $allthenews = News::latest()->where('status', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->get();
         $todaytrendingnews = News::latest()->where('status', 1)->where('is_trending', 1)->where('draft', 0)->whereDate('created_at', date('Y-m-d'))->take(5)->get();
         $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(5)->get();
-        $trendingone = News::latest()->where('is_trending', 1)->where('status', 1)->where('draft', 0)->first();
-        $trendingthree = News::where('is_trending', 1)->where('status', 1)->where('draft', 0)->take(3)->get();
-        $trendingfive = News::latest()->where('is_trending', 1)->where('status', 1)->where('draft', 0)->take(5)->get();
+        $trendingone = News::latest()->where('featured', 1)->where('status', 1)->where('draft', 0)->first(); //Featured One
+        $trendingthree = News::latest()->where('featured', 1)->where('status', 1)->where('draft', 0)->where('id', '!=', $trendingone->id)->take(3)->get(); //Featured Three
+        $trendingfive = News::latest()->where('featured', 1)->where('status', 1)->where('draft', 0)->skip(4)->take(5)->get(); //Featured Five
+        $trendingnewsall = News::latest()->where('is_trending', 1)->where('status', 1)->where('draft', 0)->take(5)->get();
         $recentnews = News::latest()->where('status', 1)->where('draft', 0)->take(5)->get();
-        return view('frontend.index', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'trendingone', 'trendingthree', 'trendingfive', 'downmenucategories', 'menucategories', 'popularnews', 'advertisement', 'allthenews', 'recentnews', 'categoryallnews', 'todaytrendingnews'));
+        return view('frontend.index', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'trendingone', 'trendingthree', 'trendingfive', 'downmenucategories', 'menucategories', 'popularnews', 'advertisement', 'allthenews', 'recentnews', 'categoryallnews', 'todaytrendingnews', 'trendingnewsall'));
     }
 
     public function aboutus()

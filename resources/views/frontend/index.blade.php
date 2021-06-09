@@ -53,7 +53,7 @@
                 </div>
                 <div class="row mt-3 mb-3">
                     <div class="col-lg-8 bg-white pt-3 ">
-                        <!-- Trending Top -->
+                        <!-- Featured Top -->
                         <div class="trending-top mb-30">
                             <div class="trend-top-img">
                                     @php
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Trending Bottom -->
+                        <!-- Featured Bottom -->
                         <div class="trending-bottom">
                             <div class="row">
                                 @foreach ($trendingthree as $news)
@@ -102,7 +102,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Riht content -->
+                    <!-- Right Featured content -->
                     <div class="col-lg-4 bg-white pt-3">
                         @foreach ($trendingfive as $news)
                             <div class="trand-right-single d-flex">
@@ -334,14 +334,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle mb-30">
-                            <h3>लोकप्रिय समाचार</h3>
+                            <h3>प्रचलन समाचार</h3>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="weekly2-news-active dot-style d-flex dot-style">
-                            @foreach ($popularnews as $news)
+                            @foreach ($trendingnewsall as $news)
                                 <div class="weekly2-single">
                                     <div class="weekly2-img">
                                         @php
