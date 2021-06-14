@@ -70,6 +70,18 @@ class PermissionTableSeeder extends Seeder
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ],
+            [
+                'permission' => 'Manage Subcategory',
+                'slug' => Str::slug('Manage subcategory'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ],
+            [
+                'permission' => 'Manage Comments',
+                'slug' => Str::slug('Manage Comments'),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ],
         ]);
     }
 }

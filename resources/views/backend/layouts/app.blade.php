@@ -404,6 +404,15 @@
                 </ul>
               </li>
 
+              <li class="nav-item">
+                <a href="{{route('comment.index')}}" class="nav-link">
+                    <i class="fa fa-comments nav-icon"></i>
+                  <p>
+                     Comments
+                  </p>
+                </a>
+              </li>
+
           {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>

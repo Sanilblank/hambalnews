@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\AdvertisementsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SettingController;
@@ -49,6 +50,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('permission', PermissionController::class);
     Route::resource('roles', RoleController::class);
 
+    //Comments
+    Route::resource('comment', CommentController::class);
+    Route::get('reply/{id}', [CommentController::class, 'viewreplies'])->name('comment.reply');
+    Route::put('disablecomment/{id}', [CommentController::class, 'disablecomment'])->name('comment.disablecomment');
+    Route::put('enablecomment/{id}', [CommentController::class, 'enablecomment'])->name('comment.enablecomment');
+    Route::put('disablereply/{id}', [CommentController::class, 'disablereply'])->name('comment.disablereply');
+    Route::put('enablereply/{id}', [CommentController::class, 'enablereply'])->name('comment.enablereply');
+
+
     // Header Avertisement
     Route::get('/headerindex', [AdvertisementsController::class, 'headerindex'])->name('headerindex');
     Route::get('/createheader', [AdvertisementsController::class, 'createheader'])->name('createheader');
@@ -88,3 +98,7 @@ Route::get('/subcategory/{id}/{slug}', [FrontController::class, 'pageSubcategory
 Route::get('/author/{name}', [FrontController::class, 'pageAuthor'])->name('page.author');
 Route::get('/tags/{tag}', [FrontController::class, 'pageTag'])->name('page.tag');
 Route::get('/{categoryslug}/{slug}', [FrontController::class, 'pageNews'])->name('page.news');
+Route::post('/comments/add', [FrontController::class, 'addComment'])->name('page.comment');
+Route::post('/reply/add', [FrontController::class, 'addReply'])->name('page.reply');
+
+

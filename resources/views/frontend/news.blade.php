@@ -7,6 +7,9 @@
     <!-- Whats New Start -->
      <section class="whats-news-area pt-50 pb-20 area-lightgrey">
          <div class="container">
+            @if(session()->has('success'))
+                <div class="alert alert-success">{{ session('success' )}}</div>
+            @endif
 
             <div class="row">
                 <div class="col-lg-8 bg-white pt-3">
@@ -59,6 +62,279 @@
 
                         <div class="about-prea mt-5">
                             <p class="about-pera1">{!! $news->details !!}</p>
+                            <div class="blog_right_sidebar mt-2">
+                                <aside class="single_sidebar_widget tag_cloud_widget">
+                                    <h4 class="widget_title p-3">प्रतिक्रिया ({{$noofcomments}})</h4>
+                                    @if ($noofcomments > 0)
+
+                                        @foreach($comments as $comment)
+                                        <div class="ml-3 mr-3">
+
+
+                                                <strong style="font-size: 20px; color: #fc3f00">{{ $comment->name }}</strong>
+                                                <span> - {{$comment->created_at->diffForHumans()}}</span>
+                                                <p>{{ $comment->comment }}</p>
+                                                @php
+                                                    $replies = DB::table('replies')->where('comment_id', $comment->id)->where('status', 1)->latest()->get();
+                                                @endphp
+                                                <div class="row" style="margin-top: -10px">
+                                                    <div class="col-md-2 col-sm-4">
+                                                        <p><i class="fa fa-comment" aria-hidden="true"></i> {{count($replies)}} Replies</p>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-4">
+                                                        @if (count($replies) > 0)
+                                                            <a style="color: #007bff" data-toggle="collapse" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                                                            View Replies
+                                                          </a>
+                                                        @endif
+
+                                                    </div>
+                                                    <div class="col-md-8 col-sm-4 text-right">
+                                                        <a href="#" style="color: coral" data-toggle="modal" data-target="#addreplymodal{{$comment->id}}">
+                                                        जवाफ दिनुहोस्
+                                                        </a>
+                                                    </div>
+
+                                                    <!-- Modal -->
+                                                        <div class="modal fade" id="addreplymodal{{$comment->id}}" tabindex="-1" role="dialog" aria-labelledby="addreplymodalLabel{{$comment->id}}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="addreplymodalLabel{{$comment->id}}">जवाफ दिनुहोस्</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                                </div>
+                                                                <form action="{{route('page.reply')}}" method="POST">
+                                                                    @csrf
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <label for="name">पुरा नाम: </label>
+                                                                                    <input type="text" name="name" class="form-control {{($errors->any() && $errors->first('name')) ? 'is-invalid' : ''}}" value="{{old('name')}}">
+                                                                                    @if($errors->any())
+                                                                                        <p class="invalid-feedback">{{$errors->first('name')}}</p>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <label for="email">ईमेल: </label>
+                                                                                    <input type="text" name="email" class="form-control {{($errors->any() && $errors->first('email')) ? 'is-invalid' : ''}}" value="{{old('email')}}">
+                                                                                    @if($errors->any())
+                                                                                        <p class="invalid-feedback">{{$errors->first('email')}}</p>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <label for="reply">जवाफ: </label>
+                                                                                    <textarea class="form-control" rows="5" name="reply"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-success" style="background: #28a745; padding: 20px;">बुझाउनुहोस्</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="collapse ml-3" id="collapseExample{{$comment->id}}">
+                                                            {{-- <aside class="single_sidebar_widget tag_cloud_widget"> --}}
+                                                              @foreach ($replies as $reply)
+                                                                <strong style="font-size: 16px; color: #fc3f00">{{ $reply->name }}</strong>
+                                                                <span> - {{ \Carbon\Carbon::parse($reply->created_at)->diffForHumans() }} </span>
+                                                                <p>{{ $reply->reply }}</p>
+
+                                                              @endforeach
+                                                            {{-- </aside> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <hr>
+                                        </div>
+                                        @endforeach
+
+                                        @if ($othercomments != "None")
+                                        <div id="othercomments" style="display: none;">
+                                            @foreach($othercomments as $comment)
+                                                    <strong style="font-size: 20px; color: #fc3f00">{{ $comment->name }}</strong>
+                                                    <span> - {{$comment->created_at->diffForHumans()}}</span>
+                                                    <p>{{ $comment->comment }}</p>
+                                                    @php
+                                                        $replies = DB::table('replies')->where('comment_id', $comment->id)->where('status', 1)->latest()->get();
+                                                    @endphp
+                                                    <div class="row" style="margin-top: -10px">
+                                                        <div class="col-md-2 col-sm-4">
+                                                            <p><i class="fa fa-comment" aria-hidden="true"></i> {{count($replies)}} Replies</p>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-4">
+                                                            @if (count($replies) > 0)
+                                                                <a style="color: #007bff" data-toggle="collapse" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                                                                View Replies
+                                                              </a>
+                                                            @endif
+
+                                                        </div>
+                                                        <div class="col-md-8 col-sm-4 text-right">
+                                                            <a href="#" style="color: coral" data-toggle="modal" data-target="#addreplymodal{{$comment->id}}">
+                                                            जवाफ दिनुहोस्
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Modal -->
+                                                            <div class="modal fade" id="addreplymodal{{$comment->id}}" tabindex="-1" role="dialog" aria-labelledby="addreplymodalLabel{{$comment->id}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="addreplymodalLabel{{$comment->id}}">जवाफ दिनुहोस्</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <form action="{{route('page.reply')}}" method="POST">
+                                                                        @csrf
+                                                                        <div class="modal-body">
+                                                                            <div class="row">
+                                                                                <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label for="name">पुरा नाम: </label>
+                                                                                        <input type="text" name="name" class="form-control {{($errors->any() && $errors->first('name')) ? 'is-invalid' : ''}}" value="{{old('name')}}">
+                                                                                        @if($errors->any())
+                                                                                            <p class="invalid-feedback">{{$errors->first('name')}}</p>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label for="email">ईमेल: </label>
+                                                                                        <input type="text" name="email" class="form-control {{($errors->any() && $errors->first('email')) ? 'is-invalid' : ''}}" value="{{old('email')}}">
+                                                                                        @if($errors->any())
+                                                                                            <p class="invalid-feedback">{{$errors->first('email')}}</p>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label for="reply">जवाफ: </label>
+                                                                                        <textarea class="form-control" rows="5" name="reply"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="submit" class="btn btn-success" style="background: #28a745; padding: 20px;">बुझाउनुहोस्</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="collapse ml-3" id="collapseExample{{$comment->id}}">
+                                                                {{-- <aside class="single_sidebar_widget tag_cloud_widget"> --}}
+                                                                  @foreach ($replies as $reply)
+                                                                    <strong style="font-size: 16px; color: #fc3f00">{{ $reply->name }}</strong>
+                                                                    <span> - {{ \Carbon\Carbon::parse($reply->created_at)->diffForHumans() }} </span>
+                                                                    <p>{{ $reply->reply }}</p>
+
+                                                                  @endforeach
+                                                                {{-- </aside> --}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <hr>
+                                            @endforeach
+                                        </div>
+                                        @endif
+
+                                    @else
+                                        कुनै पनि उपलब्ध छैन
+                                    @endif
+                                </aside>
+
+                                <div class="row mb-5">
+                                    <div class="col-md-4">
+                                        <button class="btn" style="background: #007bff; padding: 20px;" data-toggle="modal" data-target="#addcommentModal">प्रतिक्रिया थप्नुहोस्</button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="addcommentModal" tabindex="-1" role="dialog" aria-labelledby="addcommentModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="addcommentModalLabel">प्रतिक्रिया थप्नुहोस्</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <form action="{{route('page.comment')}}" method="POST">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <input type="hidden" name="news_id" value="{{$news->id}}">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="name">पुरा नाम: </label>
+                                                                    <input type="text" name="name" class="form-control {{($errors->any() && $errors->first('name')) ? 'is-invalid' : ''}}" value="{{old('name')}}">
+                                                                    @if($errors->any())
+                                                                        <p class="invalid-feedback">{{$errors->first('name')}}</p>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="email">ईमेल: </label>
+                                                                    <input type="text" name="email" class="form-control {{($errors->any() && $errors->first('email')) ? 'is-invalid' : ''}}" value="{{old('email')}}">
+                                                                    @if($errors->any())
+                                                                        <p class="invalid-feedback">{{$errors->first('email')}}</p>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="comment">प्रतिक्रिया: </label>
+                                                                    <textarea class="form-control" rows="5" name="comment"></textarea>
+                                                                    @if($errors->any())
+                                                                        <p class="invalid-feedback">{{$errors->first('comment')}}</p>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" style="background: #28a745; padding: 20px;">बुझाउनुहोस्</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if ($othercomments != "None")
+                                        <div class="col-md-8 text-right">
+                                            <button class="btn" id="toggle" style="background: #007bff; padding: 20px;">View All Comments</button>
+
+                                        </div>
+                                    @endif
+
+                                </div>
+                            </div>
 
                             <div class="blog_right_sidebar mt-2">
                                 <aside class="single_sidebar_widget tag_cloud_widget text-center">
@@ -361,6 +637,18 @@
         var nepformat = NepaliFunctions.AD2BS(engformat);
         var nepdate = NepaliFunctions.GetBsFullDate(nepformat, true);
         document.getElementById("requireddate").innerHTML = nepdate;
+    </script>
+
+    <script>
+        const targetDiv = document.getElementById("othercomments");
+        const btn = document.getElementById("toggle");
+        btn.onclick = function () {
+        if (targetDiv.style.display !== "none") {
+            targetDiv.style.display = "none";
+        } else {
+            targetDiv.style.display = "block";
+        }
+        };
     </script>
 
 @endpush

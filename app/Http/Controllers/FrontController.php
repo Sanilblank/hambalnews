@@ -7,9 +7,11 @@ use App\Mail\SubscriberMail;
 use App\Models\Advertisement;
 use App\Models\BottomAdvertisements;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Subcategory;
 use App\Models\HeaderAdvertisements;
 use App\Models\News;
+use App\Models\Reply;
 use App\Models\Seo;
 use App\Models\Setting;
 use App\Models\Subscribers;
@@ -166,14 +168,17 @@ class FrontController extends Controller
         $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
         $news = News::where('slug', $slug)->first();
         $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
-        $allnews = News::where('status', 1)->where('draft', 0)->get();
+        $allnews = News::latest()->where('status', 1)->where('draft', 0)->get();
 
         $relatednewsitem = [];
         for ($i = 0; $i < count($news->category_id); $i++) {
             $categoryname = Category::where('id', $news->category_id[$i])->first();
             foreach ($allnews as $relatednews) {
                 if (in_array($categoryname->id, $relatednews->category_id)) {
-                    array_push($relatednewsitem, $relatednews);
+                    if(count($relatednewsitem) < 5)
+                    {
+                        array_push($relatednewsitem, $relatednews);
+                    }
                 }
             }
         }
@@ -204,7 +209,18 @@ class FrontController extends Controller
         $news->update([
             'view_count' => $news->view_count + 1,
         ]);
-        return view('frontend.news', compact('setting', 'advertisement','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'leftcategory', 'popularnews', 'news', 'tags', 'menucategories', 'relatednewsitem', 'latestnews', 'allnews', 'requiredcategories'));
+
+        $noofcomments = Comment::where('news_id', $news->id)->where('status', 1)->count();
+        $comments = Comment::latest()->where('news_id', $news->id)->where('status', 1)->take(10)->get();
+        if($noofcomments > 10)
+        {
+            $othercomments = Comment::latest()->where('news_id', $news->id)->where('status', 1)->skip(10)->take($noofcomments - 10)->get();
+        }
+        else
+        {
+            $othercomments = "None";
+        }
+        return view('frontend.news', compact('setting', 'advertisement','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'leftcategory', 'popularnews', 'news', 'tags', 'menucategories', 'relatednewsitem', 'latestnews', 'allnews', 'requiredcategories', 'comments', 'noofcomments', 'othercomments'));
     }
 
     public function pageAuthor($name)
@@ -373,5 +389,47 @@ class FrontController extends Controller
         $popularnews = News::orderby('view_count', 'DESC')->where('status', 1)->where('draft', 0)->take(4)->get();
         $latestnews = News::latest()->where('status', 1)->where('draft', 0)->take(4)->get();
         return view('frontend.privacypolicy', compact('setting', 'leftcategory','header_advertisement', 'sidebar_advertisement', 'bottom_advertisement',  'menucategories', 'advertisement', 'requiredcategories', 'allnews', 'popularnews', 'latestnews'));
+    }
+
+    public function addComment(Request $request)
+    {
+        $data = $this->validate($request, [
+            'news_id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'comment' => 'required',
+        ]);
+
+        $comment = Comment::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'comment' => $data['comment'],
+            'status' => 1,
+            'news_id' => $data['news_id']
+        ]);
+
+        $comment->save();
+        return redirect()->back()->with('success', 'Comment Added.');
+    }
+
+    public function addReply(Request $request)
+    {
+        $data = $this->validate($request, [
+            'comment_id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'reply' => 'required',
+        ]);
+
+        $reply = Reply::create([
+            'comment_id' => $data['comment_id'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'reply' => $data['reply'],
+            'status' => 1,
+        ]);
+
+        $reply->save();
+        return redirect()->back()->with('success', 'Reply Added.');
     }
 }
