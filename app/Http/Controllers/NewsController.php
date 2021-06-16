@@ -49,6 +49,23 @@ class NewsController extends Controller
                         }
                         return $categorys;
                     })
+                    ->addColumn('subcategory', function ($row) {
+                        $subcategories = $row->subcategory_id;
+                        if($subcategories == null)
+                        {
+                            $subcats = "Empty";
+                        }
+                        else
+                        {
+                            $subcats = '';
+                            foreach ($subcategories as $subcategory) {
+                                $subcategory_name = Subcategory::where('id', $subcategory)->first();
+                                $subcats .= '<span class="badge bg-green">' . $subcategory_name->title . '</span>' . ' ';
+                            }
+                        }
+
+                        return $subcats;
+                    })
                     ->addColumn('featured', function ($row) {
                         $featured = $row->featured;
                         if ($featured == 1) {
@@ -101,7 +118,7 @@ class NewsController extends Controller
                                 </form>";
                         return $btn;
                     })
-                    ->rawColumns(['status', 'featured', 'image', 'category', 'action'])
+                    ->rawColumns(['status', 'featured', 'image', 'category', 'subcategory', 'action'])
                     ->make(true);
             }
             $setting = Setting::first();
@@ -139,6 +156,23 @@ class NewsController extends Controller
                         }
 
                         return $categorys;
+                    })
+                    ->addColumn('subcategory', function ($row) {
+                        $subcategories = $row->subcategory_id;
+                        if($subcategories == null)
+                        {
+                            $subcats = "Empty";
+                        }
+                        else
+                        {
+                            $subcats = '';
+                            foreach ($subcategories as $subcategory) {
+                                $subcategory_name = Subcategory::where('id', $subcategory)->first();
+                                $subcats .= '<span class="badge bg-green">' . $subcategory_name->title . '</span>' . ' ';
+                            }
+                        }
+
+                        return $subcats;
                     })
 
                     ->addColumn('featured', function ($row) {
@@ -204,7 +238,7 @@ class NewsController extends Controller
                                 </form>";
                         return $btn;
                     })
-                    ->rawColumns(['status', 'featured', 'image', 'category', 'action'])
+                    ->rawColumns(['status', 'featured', 'image', 'category', 'subcategory', 'action'])
                     ->make(true);
             }
             $setting = Setting::first();

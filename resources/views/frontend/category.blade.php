@@ -46,6 +46,15 @@
 
                                                         <span class="color1">{{$categories_name->title}}</span>
                                                     @endforeach
+                                                    @if ($onenews->subcategory_id != null)
+                                                        @foreach ($onenews->subcategory_id as $subcategory)
+                                                            @php
+                                                                $subcategories_name = DB::table('subcategories')->where('id', $subcategory)->first();
+                                                            @endphp
+
+                                                            <span class="color1">{{$subcategories_name->title}}</span>
+                                                        @endforeach
+                                                    @endif
                                                     <h4><a href="{{route('page.news', ['categoryslug' => $categories_name->slug, 'slug' => $onenews->slug])}}">{{$onenews->title}}</a></h4>
                                                 </div>
                                             </div>
@@ -67,6 +76,15 @@
 
                                                                 <span class="color1">{{$categories_name->title}}</span>
                                                             @endforeach
+                                                            @if ($newsitem->subcategory_id != null)
+                                                                @foreach ($newsitem->subcategory_id as $subcategory)
+                                                                    @php
+                                                                        $subcategories_name = DB::table('subcategories')->where('id', $subcategory)->first();
+                                                                    @endphp
+
+                                                                    <span class="color1">{{$subcategories_name->title}}</span>
+                                                                @endforeach
+                                                            @endif
                                                             <h4><a href="{{route('page.news', ['categoryslug' => $categories_name->slug, 'slug' => $newsitem->slug])}}">{{$newsitem->title}}</a></h4>
                                                         </div>
                                                     </div>

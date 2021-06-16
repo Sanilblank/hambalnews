@@ -31,6 +31,7 @@
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Category</th>
+                                    <th>Subcategory</th>
                                     <th>Status</th>
                                     <th>Featured</th>
                                     <th>Is Trending</th>
@@ -66,6 +67,7 @@
               {data: 'image', name: 'image'},
               {data: 'title', name: 'title'},
               {data: 'category', name: 'category'},
+              {data: 'subcategory', name: 'subcategory'},
               {data: 'status', name: 'status'},
               {data: 'featured', name: 'featured'},
               {data: 'is_trending', name: 'is_trending'},

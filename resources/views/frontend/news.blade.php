@@ -615,6 +615,15 @@
 
                                             <span class="color1">{{$categories_name->title}}</span>
                                         @endforeach
+                                        @if ($news->subcategory_id != null)
+                                                    @foreach ($news->subcategory_id as $subcategory)
+                                                        @php
+                                                            $subcategories_name = DB::table('subcategories')->where('id', $subcategory)->first();
+                                                        @endphp
+
+                                                        <span class="color1">{{$subcategories_name->title}}</span>
+                                                    @endforeach
+                                        @endif
                                         <p>{{date('F j, Y', strtotime($news->created_at))}}</p>
                                         <h4><a href="{{route('page.news', ['categoryslug' => $categories_name->slug, 'slug' => $news->slug])}}">{{$news->title}}</a></h4>
                                     </div>

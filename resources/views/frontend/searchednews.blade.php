@@ -7,7 +7,7 @@
          <div class="container">
              <div class="row">
              <div class="col-lg-8">
-                 <h1 class="text-center mb-3" style="color: #002e5b">Search Results for "{{$searchword}}"</h1>
+                 <h1 class="text-center mb-3" style="color: #002e5b">"{{$searchword}}" खोज परिणामहरू</h1>
                  <hr>
                  <div class="row">
                      <div class="col-12">
@@ -40,6 +40,15 @@
 
                                                                 <span class="color1">{{$categories_name->title}}</span>
                                                             @endforeach
+                                                            @if ($newsitem->subcategory_id != null)
+                                                                @foreach ($newsitem->subcategory_id as $subcategory)
+                                                                    @php
+                                                                        $subcategories_name = DB::table('subcategories')->where('id', $subcategory)->first();
+                                                                    @endphp
+
+                                                                    <span class="color1">{{$subcategories_name->title}}</span>
+                                                                @endforeach
+                                                            @endif
                                                             <h4><a href="{{route('page.news', ['categoryslug' => $categories_name->slug, 'slug' => $newsitem->slug])}}">{{$newsitem->title}}</a></h4>
                                                         </div>
                                                     </div>
@@ -62,9 +71,9 @@
                             @method("GET")
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name="word" placeholder='Search Keyword'
+                                    <input type="text" class="form-control" name="word" placeholder='खोजी गर्नुहोस्'
                                         onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Search Keyword'">
+                                        onblur="this.placeholder = 'खोजी गर्नुहोस्'">
                                     <div class="input-group-append">
                                         <button class="btns" type="submit" class="form-control"><i class="ti-search"></i></button>
                                     </div>
@@ -77,7 +86,7 @@
                     </aside>
 
                     <aside class="single_sidebar_widget post_category_widget">
-                        <h4 class="widget_title">News Category</h4>
+                        <h4 class="widget_title">समाचार कोटिहरू</h4>
                         <ul class="list cat-list">
                             @foreach ($requiredcategories as $category)
                                 <li>
@@ -101,7 +110,7 @@
                     </aside>
 
                     <aside class="single_sidebar_widget popular_post_widget">
-                        <h3 class="widget_title">Latest News</h3>
+                        <h3 class="widget_title">ताजा समाचार</h3>
                         @foreach ($latestnews as $latestnewsitem)
                             <div class="media post_item">
                                 @php
@@ -121,7 +130,7 @@
                     <!-- Section Tittle -->
                  <!-- Section Tittle -->
                  <div class="section-tittle mb-2 text-center">
-                    <h3>Follow Us</h3>
+                    <h3>हामीलाई पछ्याउनुहोस</h3>
                     <div class="fb-page"
                             data-href="https://www.facebook.com/LuminaryFacts-100972155460173/"
                             data-tabs=""
@@ -187,7 +196,7 @@
                 </div>
 
                 <aside class="single_sidebar_widget popular_post_widget">
-                    <h3 class="widget_title">Popular News</h3>
+                    <h3 class="widget_title">लोकप्रिय समाचार</h3>
                     @foreach ($popularnews as $latestnewsitem)
                         <div class="media post_item">
                             @php
