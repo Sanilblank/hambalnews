@@ -280,7 +280,9 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $subcategoryerror = 0;
+        $catsubcaterror = 0;
         $posterror = 0;
+        $category_id = $request['category'];
         if ($request->ajax()) {
             $this->validate($request, [
                 'file' => 'required|max:500'
@@ -296,7 +298,7 @@ class NewsController extends Controller
         };
 
 
-        if(empty($request['title']) || empty($request['image']) ||empty($request['category']) ||empty($request['details']) ||empty($request['seotitle']) ||empty($request['seodescription']) ||empty($request['tags']) || $request->has('draft'))
+        if(empty($request['title']) || empty($request['image']) ||empty($request['details']) ||empty($request['seotitle']) ||empty($request['seodescription']) ||empty($request['tags']) || $request->has('draft'))
         {
             $draft = 1;
         }
@@ -315,20 +317,44 @@ class NewsController extends Controller
         //     'seotitle' => 'required',
         //     'seodescription' => 'required',
         // ]);
+        if($request['category'] == null && $request['subcategory'] == null)
+        {
+            $draft = 1;
+            $catsubcaterror = 1;
+        }
 
         if($request['subcategory'] != null)
         {
-            foreach($request['subcategory'] as $sub)
+
+            if($request['category'] != null)
             {
-                $subcategory = Subcategory::where('id', $sub)->first();
-                if(!in_array($subcategory->category_id, $request['category']))
+                $category_id = $request['category_id'];
+                foreach($request['subcategory'] as $sub)
                 {
-                    $draft = 1;
-                    $subcategoryerror = 1;
-                    // return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    $subcategory = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcategory->category_id, $request['category']))
+                    {
+                        $draft = 1;
+                        $subcategoryerror = 1;
+                        // return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    }
                 }
             }
+            else
+            {
+                $category_id = array();
+                foreach($request['subcategory'] as $sub)
+                {
+                    $subcat = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcat->category_id, $category_id))
+                    {
+                        $category_id[] = $subcat->category_id;
+                    }
+                }
+            }
+
         }
+
 
         if($request['status'] == 0 && $request['postfbtwitter'] == 1)
         {
@@ -369,7 +395,7 @@ class NewsController extends Controller
             'author' => $request['author'],
             'slug' => Str::slug($request['title']),
             'image' => $path,
-            'category_id' => $request['category'],
+            'category_id' => $category_id,
             'subcategory_id' => $request['subcategory'],
             'details' => $request['details'],
             'status' => $status,
@@ -429,6 +455,10 @@ class NewsController extends Controller
         elseif($draft == 1 && $posterror == 1)
         {
             return redirect()->route('draftnews.edit', $news->id)->with('failure', 'Cannot Post unapproved news on facebook and twitter. Please check status box.');
+        }
+        elseif($draft == 1 && $catsubcaterror == 1)
+        {
+            return redirect()->route('draftnews.edit', $news->id)->with('failure', 'Both Category and Subcategory cannot be empty.');
         }
         else
         {
@@ -518,8 +548,9 @@ class NewsController extends Controller
     public function draftnewsupdate(Request $request, $id)
     {
         $news = News::findorfail($id);
+        $category_id = $request['category'];
 
-        if(empty($request['title']) ||empty($request['category']) ||empty($request['details']) ||empty($request['seotitle']) ||empty($request['seodescription']) ||empty($request['tags']) || $request->has('draft'))
+        if(empty($request['title']) ||empty($request['details']) ||empty($request['seotitle']) ||empty($request['seodescription']) ||empty($request['tags']) || $request->has('draft'))
         {
             $draft = 1;
         }
@@ -537,16 +568,38 @@ class NewsController extends Controller
         //     'seodescription' => 'required'
         // ]);
 
+        if($request['category'] == null && $request['subcategory'] == null)
+        {
+            return redirect()->back()->with('failure', 'Both Category and Subcategory cannot be null');
+        }
+
         if($request['subcategory'] != null)
         {
-            foreach($request['subcategory'] as $sub)
+            if($request['category'] != null)
             {
-                $subcategory = Subcategory::where('id', $sub)->first();
-                if(!in_array($subcategory->category_id, $request['category']))
+                foreach($request['subcategory'] as $sub)
                 {
-                    return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    $subcategory = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcategory->category_id, $request['category']))
+                    {
+                        return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    }
+                }
+                $category_id = $request['category'];
+            }
+            else
+            {
+                $category_id = array();
+                foreach($request['subcategory'] as $sub)
+                {
+                    $subcat = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcat->category_id, $category_id))
+                    {
+                        $category_id[] = $subcat->category_id;
+                    }
                 }
             }
+
         }
 
         if(!empty($request['tags']))
@@ -593,7 +646,7 @@ class NewsController extends Controller
             'author' => $request['author'],
             'slug' => Str::slug($request['title']),
             'image' => $imagename,
-            'category_id' => $request['category'],
+            'category_id' => $category_id,
             'subcategory_id' => $request['subcategory'],
             'details' => $request['details'],
             'status' => $status,
@@ -665,23 +718,46 @@ class NewsController extends Controller
     {
         $data = $this->validate($request, [
             'title' => 'required',
-            'category' => 'required',
             'details' => 'required',
             'tags' => 'required',
             'seotitle' => 'required',
             'seodescription' => 'required'
         ]);
 
+        $category_id = $request['category'];
+
+        if($request['category'] == null && $request['subcategory'] == null)
+        {
+            return redirect()->back()->with('failure', 'Both Category and Subcategory cannot be null');
+        }
+
         if($request['subcategory'] != null)
         {
-            foreach($request['subcategory'] as $sub)
+            if($request['category'] != null)
             {
-                $subcategory = Subcategory::where('id', $sub)->first();
-                if(!in_array($subcategory->category_id, $data['category']))
+                foreach($request['subcategory'] as $sub)
                 {
-                    return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    $subcategory = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcategory->category_id, $request['category']))
+                    {
+                        return redirect()->back()->with('failure', 'Subcategory does not exist in selected categories. Please check');
+                    }
+                }
+                $category_id = $request['category'];
+            }
+            else
+            {
+                $category_id = array();
+                foreach($request['subcategory'] as $sub)
+                {
+                    $subcat = Subcategory::where('id', $sub)->first();
+                    if(!in_array($subcat->category_id, $category_id))
+                    {
+                        $category_id[] = $subcat->category_id;
+                    }
                 }
             }
+
         }
 
         $tag_info = Tags::where('news_id', $news['id'])->get();
@@ -716,7 +792,7 @@ class NewsController extends Controller
             'author' => $request['author'],
             'slug' => Str::slug($data['title']),
             'image' => $imagename,
-            'category_id' => $data['category'],
+            'category_id' => $category_id,
             'subcategory_id' => $request['subcategory'],
             'details' => $data['details'],
             'status' => $status,

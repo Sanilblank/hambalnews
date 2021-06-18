@@ -29,13 +29,19 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" name="title" class="form-control" value="{{ old('title', $news->title) }}">
+                                        <input type="text" name="title" class="form-control" value="{{ @old('title') ? @old('title') : $news->title }}">
+                                        @error('title')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="author">Author</label>
-                                        <input type="text" name="author" class="form-control" value="{{ old('author', $news->author) }}">
+                                        <input type="text" name="author" class="form-control" value="{{ @old('author') ? @old('author') : $news->author }}">
+                                        @error('author')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -67,13 +73,13 @@
                                 @if ($news->subcategory_id != null)
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="category">Choose News SubCategories (If Required) </label>
+                                            <label for="subcategory">Choose News SubCategories (If Required) </label>
                                             <select class="form-control chosen-select" data-placeholder="Type subcategory names..." multiple name="subcategory[]">
                                                 @foreach ($subcategories as $subcategory)
                                                     <option value="{{$subcategory->id}}" {{ in_array($subcategory->id, $news->subcategory_id) ? "selected":"" }}>{{$subcategory->title}}</option>
                                                 @endforeach
                                             </select>
-                                            @error('category')
+                                            @error('subcategory')
                                                 <p class="text-danger">{{$message}}</p>
                                             @enderror
                                         </div>
@@ -81,13 +87,13 @@
                                 @else
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="category">Choose News SubCategories (If Required) </label>
+                                            <label for="subcategory">Choose News SubCategories (If Required) </label>
                                             <select class="form-control chosen-select" data-placeholder="Type subcategory names..." multiple name="subcategory[]">
                                                 @foreach ($subcategories as $subcategory)
                                                     <option value="{{$subcategory->id}}">{{$subcategory->title}}</option>
                                                 @endforeach
                                             </select>
-                                            @error('category')
+                                            @error('subcategory')
                                                 <p class="text-danger">{{$message}}</p>
                                             @enderror
                                         </div>
@@ -100,7 +106,10 @@
 
                             <div class="form-group">
                                 <label for="Details">Details</label>
-                                <textarea name="details" id="description" class="form-control summernote">{{ old('details', $news->details) }}</textarea>
+                                <textarea name="details" id="description" class="form-control summernote">{{ @old('details') ? @old('details') : $news->details }}</textarea>
+                                @error('details')
+                                    <p class="text-danger">{{$message}}</p>
+                                @enderror
                             </div>
 
                             <div class="row mt-3">

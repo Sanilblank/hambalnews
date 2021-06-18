@@ -29,13 +29,19 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" name="title" class="form-control" value="{{ old('title', $news->title) }}">
+                                        <input type="text" name="title" class="form-control" value="{{@old('title') ? @old('title') : $news->title }}">
+                                        @error('title')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="author">Author</label>
-                                        <input type="text" name="author" class="form-control" value="{{ old('author', $news->author) }}">
+                                        <input type="text" name="author" class="form-control" value="{{ @old('author') ? @old('author') : $news->author }}">
+                                        @error('author')
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +51,7 @@
                                     <div class="form-group">
                                         <label for="Image">Select an image (News Header Image)</label>
                                         <input type="file" name="image" class="form-control">
-                                        <div class="text-danger">Note* : Keep this empty if you wnat previous image.</div>
+                                        <div class="text-danger">Note* : Keep this empty if you want previous image.</div>
                                     </div>
                                 </div>
 
@@ -117,7 +123,7 @@
 
                             <div class="form-group">
                                 <label for="Details">Details</label>
-                                <textarea name="details" id="description" class="form-control summernote">{{ old('details', $news->details) }}</textarea>
+                                <textarea name="details" id="description" class="form-control summernote">{{ @old('details') ? @old('details') : $news->details }}</textarea>
                             </div>
 
                             <div class="row mt-3">
